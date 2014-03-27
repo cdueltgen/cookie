@@ -55,17 +55,16 @@ def get_councils():
     return councils_dict
 
 def main():
-    test_zips = ['56387', '01060', '02199', '10557', '17765', '26717', '28072', '36908', '45740', '62524', '74438', '94703']
+    # test_zips = ['56387', '01060', '02199', '10557', '17765', '26717', '28072', '36908', '45740', '62524', '74438', '94703']
     # councils = get_councils()
-    for zc in test_zips:
-        r = requestHTML(zc)
-        html = make_text(r)
-        q_council = soup_me(html)
-        if councils.get(q_council):
-            print "%s has gluten free cookies!" % q_council
-        else:
-            print "%s does not have gluten free cookies" % q_council
+    zc = raw_input("Gimme a zip code to test> ")
+    r = requestHTML(zc)
+    html = make_text(r)
+    q_council = soup_me(html)
+    if councils.get(q_council):
+        print "%s has gluten free cookies!" % q_council
+    else:
+        print "%s does not have gluten free cookies" % q_council
 
 if __name__ == "__main__":
-    # main()
-    pass
+    main()
