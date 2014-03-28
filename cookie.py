@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as BS
 from flask import Flask, request, render_template, flash, session
 
 from councils_with_gf_cookies import councils
+from zips import zips
 
 app = Flask(__name__)
 app.secret_key = "SHHHHHHHHHHHH"
@@ -74,15 +75,18 @@ def find_cookies():
     error = None
     if request.method == 'POST':
         zc = request.form['zipcode']
-        r = requestHTML(zc)
-        html = make_text(r)
-        q_council = soup_me(html)
-        if councils.get(q_council):
-            flash("%s has Gluten Free cookies" % q_council)
-            # return render_template("index.html")
+        if not zips.get(zc):
+            flash("%s is not a valid zipcode" % zc)
         else:
-            flash("%s does not have Gluten Free cookies" % q_council)
-            # return render_template("index.html")
+            r = requestHTML(zc)
+            html = make_text(r)
+            q_council = soup_me(html)
+            if councils.get(q_council):
+                flash("%s has Gluten Free cookies" % q_council)
+                # return render_template("index.html")
+            else:
+                flash("%s does not have Gluten Free cookies" % q_council)
+                # return render_template("index.html")
     return render_template("index.html")
 
 if __name__ == "__main__":
